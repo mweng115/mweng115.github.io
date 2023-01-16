@@ -86,11 +86,30 @@ void loop() {
             <img src="Schematic.jpg" width=400></a>
             </p>
             <p>
+                The image above shows the schematic for the following circuit. In this schematic, the resistors come before the LEDs. 
                 Circuit:
             </p>
             <p>
             <img src="IMG_3010.jpg" width=400></a>
             </p>
+            <p>
+                As the Arduino provides 5V of power and LEDs typically want to run at 20mA, a resistor is necessary in the circuit
+                so that the LEDs don't burn out. This circuit includes red, white, and blue LEDs. Red LEDs have a 1.8 V drop, while white
+                and blue LEDs have a 3.3 V drop. Using Ohm's Law (V=I*R) we can calculate the resistance necessary for the LEDs to not get
+                burnt out by the circuit. 
+                
+                White/ Blue:
+                V = I*R
+                5 V - 3.3 V = 20 mA * R
+                R = 1.7 V / 20 mA = 85 ohms
+                
+                Red:
+                V = I*R
+                5 V - 1.8 V = 20 mA * R
+                R = 3.2 V / 20 mA = 160 ohms
+                
+                Based on these calculations, I originally used a 100 ohm resistor for the white and blue LEDs. However, this made the 
+                LEDs very bright, so I settled on a 1000 ohm resistor for both. For the red LED, I used a 330 ohm resistor. 
                 
         </div>
         
