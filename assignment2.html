@@ -12,13 +12,107 @@
     <body> 
 
         <div class="header">
-            <h1>Example Student's Assignment 2!</h1>
+            <h1>Assignment 2: Fade!</h1>
             <p>
-            <img src="red-panda.jpg" width=400></a>
+            Here is all the documentation for assignment 2, including:
+                <ul>
+                  <li>Circuit Operation</li>
+                  <li>Schematic</li>
+                  <li>Circuit</li>
+                  <li>Firmware</li>
+                </ul>
             </p>
             <p>
-            Here is all the documentation for assignment 2!
+                Circuit Operation:
             </p>
+            <p>
+            <img src="IMG_3047_AdobeExpress.gif" width=400></a>
+            </p>
+            <p>
+                The circuit operation shows three LEDs fading and brightening in unison. The LED operation can be turned on and off by holding the button.
+            <p>
+                Schematic:
+            </p>
+            <p>
+            <img src="IMG_3049" width=400></a>
+            </p>
+            <p>
+                The image above shows the schematic for assignment 2. In the Schematic, the resistors come before the LEDs but the resistor for the button comes after.
+            </p>
+            <p>
+                Circuit:
+            </p>
+            <p>
+            <img src="IMG_3048.JPG" width=400></a>
+            </p>
+            <pre>
+As the Arduino provides 5V of power and LEDs typically want to run at 20mA, a resistor is necessary in the circuit so that the LEDs don't burn out. 
+This circuit includes yellow, white, and blue LEDs. Yellow LEDs have a 1.8 V drop, while white and blue LEDs have a 3.3 V drop. Using Ohm's Law (V=I*R) 
+we can calculate the resistance necessary for the LEDs to not get burnt out by the circuit. 
+
+White/ Blue:
+V = I*R
+5 V - 3.3 V = 20 mA * R
+R = 1.7 V / 20 mA = 85 ohms
+
+Yellow:
+V = I*R
+5 V - 1.8 V = 20 mA * R
+R = 3.2 V / 20 mA = 160 ohms
+
+Based on these calculations, I originally used a 100 ohm resistor for the white and blue LEDs. However, this made the LEDs very bright, so I 
+settled on a 1000 ohm resistor for both. For the yellow LED, I used a 330 ohm resistor. 
+
+The button in this circuit also requires a resistor in order to limit the current. This is so that it is easier for the pin to read when the
+button is on or off. Using Ohm's Law, we can calculate the resistance necessary to limit the current to 0.0005 A, a current value which will
+limit floating without making it difficult to read when the current is flowing. Shout out to Shivank for helping with this explanation.
+
+V= I*R
+5 V = 0.0005 A * R
+R = 5 V / 0.0005 A = 10000 ohms
+</pre>
+<p>
+    Firmware:
+</p>
+<pre>
+void setup() {
+  // initialize the pins used for the LEDs
+    pinMode(9, OUTPUT);
+    pinMode(6, OUTPUT);
+    pinMode(5, OUTPUT);
+}
+
+void loop() {
+  // checks to see if the button is being pressed or not
+  int reading = digitalRead(2);
+  // if the button is not pressed (allowing current through)
+  if (reading == 1){
+    // increases the brightness of the LED from 0 to 255
+    for (int fadeValue = 0 ; fadeValue <= 255; fadeValue += 5) {
+      analogWrite(9, fadeValue);
+      analogWrite(6, fadeValue);
+      analogWrite(5, fadeValue);
+      // wait for 30 milliseconds to see the brightening effect
+      delay(30);
+    }
+    // decreases the brightness of the LED from 255 to 0
+    for (int fadeValue = 255 ; fadeValue >= 0; fadeValue -= 5) {
+      analogWrite(9, fadeValue);
+      analogWrite(6, fadeValue);
+      analogWrite(5, fadeValue);
+      // wait for 30 milliseconds to see the dimming effect
+      delay(30);
+    }
+  // if the button is being pressed (not allowing current through)
+  } else {
+    // make the output of the pins connected to LEDs equal to zero, turning the LEDs off
+    analogWrite(9, 0);
+    analogWrite(6, 0);
+    analogWrite(5, 0);
+  }
+}
+</pre>
+
         </div>
         
     </body>
