@@ -22,7 +22,74 @@
                   <li>Firmware</li>
                 </ul>
             </p>
-        </div>
+        <pre>
+/* Some of the following code is from the Arduino example codes, specifically
+the Analog Calibration and Smoothing files. 
+*/
+
+const int analogPin = A0;  // Analog input pin that the photoresistor is attached to
+
+int sensorValue = 0;        // value read from the photoresistor
+
+const int numReadings = 10;     // constant which represents when the saved readings should be reset
+int readings[numReadings];      // the readings from the photoresistor
+int readIndex = 0;              // the index of the current reading
+int total = 0;                  // the running total of all the readings added together
+int average = 0;                // the average of the readings
+
+void setup() {
+  // initialize serial communications at 9600 bps
+  Serial.begin(9600);
+  // sets the initial values of the array holding the sensor readings to 0
+  for (int thisReading = 0; thisReading < numReadings; thisReading++) {
+    readings[thisReading] = 0;
+  }
+  // initialize the LED pins as outputs
+  pinMode(6, OUTPUT);
+  pinMode(11, OUTPUT);
+}
+
+void loop() {
+  // read the value of the photoresistor
+  sensorValue = analogRead(analogPin);
+  // subtract the last reading
+  total = total - readings[readIndex];
+  // read from the sensor
+  readings[readIndex] = sensorValue;
+  // add the reading to the total
+  total = total + readings[readIndex];
+  // advance to the next position in the array
+  readIndex = readIndex + 1;
+
+  // if we're at the end of the array...
+  if (readIndex >= numReadings) {
+    // ...wrap around to the beginning
+    readIndex = 0;
+  }
+  // calculate the average of the past 10 readings
+  average = total / numReadings;
+  // print information about the sensor average and current sensor value to help with debugging
+  Serial.print("sensor average = ");
+  Serial.print(average);
+  Serial.print(" sensor value = ");
+  Serial.println(sensorValue);
+  delay(30);        // delay in between reads for stability
+  // check whether or not the light the photoresistor is reading is more than the average or not
+  if (average > sensorValue) {
+    // if the reading is lower than the average, turn on the pin connected to the green LED
+    analogWrite(11, sensorValue);
+    // turn off the red LED
+    analogWrite(6, LOW);
+  } 
+  else {
+    // if the reading is higher than the average, turn on the pin connected to the red LED
+    analogWrite(6, sensorValue);
+    // turn off the green LED
+    analogWrite(11, LOW);
+  }
+}
+        </pre>
+    </div>
         
     </body>
 </html>
