@@ -34,13 +34,13 @@
         Schematic:
         </p>
         <p>
-        <img src="IMG_3062.gif" width=400></a>
+        <img src="IMG_3062.jpg" width=400></a>
         </p>
         <p>
         Circuit:
         </p>
         <p>
-        <img src="IMG_3057.gif" width=400></a>
+        <img src="IMG_3057.JPG" width=400></a>
         </p>
         <pre>
 As the Arduino provides 5V of power and LEDs typically want to run at 20mA, a resistor is necessary in the circuit so that the LEDs don't burn out. 
@@ -53,10 +53,9 @@ R = 3.2 V / 20 mA = 160 ohms
 
 As 160 ohms is the minimum resistance necessary, I used a 330 ohm resistor for both LEDs so that they don't appear too bright.
 
-For the photoresistor, the analog pin may read values around 400 to 800, although it is dependent on the light source. In my circuit's operation, 
+For the photoresistor, the voltage divider may read values around 400 to 800, although it is dependent on the light source. In my circuit's operation, 
 my photoresistor exhibited values from 0 to 1200. Another 10,000 ohm resistor was necessary as part of this circuit in order to prevent floating.
-Floating occurs when it is difficult to read the current, as it can be equivalent to anything from 0 V to 5 V. By adding a larger resistor (10,000
-ohms), the reading of the analog pin will be more accurate. 
+Floating occurs when it is difficult to read the current. By adding a larger resistor (10,000 ohms), the reading of the analog pin will be more accurate. 
 
 V= I*R
 5 V = 0.0005 A * R

@@ -1,0 +1,166 @@
+<!DOCTYPE html> 
+<html> 
+    <head> 
+        <meta charset="utf-8"> 
+        <meta name="viewport" content="width=device-width, maximum-scale=1.0" />
+
+        <title>Michelle Weng's HCDE 439 Physical Computing Page!</title> 
+
+        <link href="style.css" media="screen" rel="stylesheet" type="text/css" />
+
+    </head> 
+    <body> 
+
+        <div class="header">
+            <h1>Assignment 4: Libraries!</h1>
+            <p>
+            Here is all the documentation for assignment 4, including:
+                <ul>
+                  <li>Circuit Operation</li>
+                  <li>Schematic</li>
+                  <li>Circuit</li>
+                  <li>Firmware</li>
+                </ul>
+            </p>
+        <p>
+        <img src="" width=400></a>
+        </p>
+        <p>
+        The gif above shows the circuit operation. As the remote is pressed, the seven segment display shows 
+        the number corresponding to the button pressed on the remote. 
+        </p>
+        <p>
+        Schematic:
+        </p>
+        <p>
+        <img src="" width=400></a>
+        </p>
+        <p>
+        Circuit:
+        </p>
+        <p>
+        <img src="" width=400></a>
+        </p>
+        <p>
+The seven segment display has LEDs in it which need resistors in order to not burn out the LEDS from the current. As the 
+LEDs are red, the red LEDs have a voltage drop of 1.8 V. To calculate an appropriate resistor value, we can use the formula
+voltage = current * resistance. The arduino provides 5 V and LEDS usually want to run around 20 mA. 
+
+V = I*R
+5 V - 1.8 V = 20 mA * R
+R = 3.2 V / 20 mA = 160 ohms
+
+In the circuit, I use one 1000 ohm resistor on the common pins. 
+
+The remote reciever also needs a resistor in order to prevent floating. In addition, the resistor value should be around 
+10,000 ohms in order for the reciever pin to recieve appropriate values.
+        </p>
+        <p>
+Firmware:
+        </p>
+        <pre>
+#include /<SevenSegmentDisplay.h/>
+#include /<IRremote.h/>
+
+// set the seven segment display to output to the following pins
+SevenSegmentDisplay screenName(2, 3, 4, 5, 6, 7, 8, 9, false);
+
+// define what the serial monitor prints when each of the following buttons is pressed
+#define IR_BUTTON_1 22
+#define IR_BUTTON_1 12
+#define IR_BUTTON_2 24
+#define IR_BUTTON_3 94
+#define IR_BUTTON_4 8
+#define IR_BUTTON_5 28
+#define IR_BUTTON_6 90
+#define IR_BUTTON_7 66
+#define IR_BUTTON_8 82
+#define IR_BUTTON_9 74
+#define IR_BUTTON_PLAY_PAUSE 64
+
+void setup() {
+  // start serial monitor
+  Serial.begin(9600);
+  // start the receiver to recieve information from pin 12
+  IrReceiver.begin(12);
+  // test whether or not the seven segment display is set up correctly
+  screenName.testDisplay();
+  // turn the decimal point on the seven segment display off
+  screenName.displayDecimalPoint(false);
+}
+
+void loop() {
+  // if a button on the remote is pressed
+  if (IrReceiver.decode()) {
+    IrReceiver.resume();
+    // print something in response to which button is pressed
+    Serial.println(IrReceiver.decodedIRData.command);
+    switch (command) {
+      // if 1 on the button is pressed, print 1 on the seven segement display
+      case IR_BUTTON_1: {
+        Serial.println("Pressed on button 1");
+        screenName.displayCharacter('1');
+        break;
+      }
+      // if 2 on the button is pressed, print 2 on the seven segement display
+      case IR_BUTTON_2: {
+        Serial.println("Pressed on button 2");
+        screenName.displayCharacter('2');
+        break;
+      }
+      // if 3 on the button is pressed, print 3 on the seven segement display
+      case IR_BUTTON_3: {
+        Serial.println("Pressed on button 3");
+        screenName.displayCharacter('3');
+        break;
+      }
+      // if 4 on the button is pressed, print 4 on the seven segement display
+      case IR_BUTTON_4: {
+        Serial.println("Pressed on button 4");
+        screenName.displayCharacter('4');
+        break;
+      }
+      // if 5 on the button is pressed, print 5 on the seven segement display
+      case IR_BUTTON_5: {
+        Serial.println("Pressed on button 5");
+        screenName.displayCharacter('5');
+        break;
+      }
+      // if 6 on the button is pressed, print 6 on the seven segement display
+      case IR_BUTTON_6: {
+        Serial.println("Pressed on button 6");
+        screenName.displayCharacter('6');
+        break;
+      }
+      // if 7 on the button is pressed, print 7 on the seven segement display
+      case IR_BUTTON_7: {
+        Serial.println("Pressed on button 7");
+        screenName.displayCharacter('7');
+        break;
+      }
+      // if 8 on the button is pressed, print 8 on the seven segement display
+      case IR_BUTTON_8: {
+        Serial.println("Pressed on button 8");
+        screenName.displayCharacter('8');
+        break;
+      }
+      // if 9 on the button is pressed, print 9 on the seven segement display
+      case IR_BUTTON_9: {
+        Serial.println("Pressed on button 9");
+        screenName.displayCharacter('9');
+        break;
+      }
+      // if something besides the above is pressed, print that the button is not recognized
+      default: {
+        Serial.println("Button not recognized");
+        // turns off the seven segment display by providing a value outside of the recognized characters
+        screenName.displayCharacter('-');
+      }
+    }
+  }
+}
+        </pre>
+    </div>
+        
+    </body>
+</html>
