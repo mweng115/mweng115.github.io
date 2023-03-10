@@ -4,37 +4,145 @@
         <meta charset="utf-8"> 
         <meta name="viewport" content="width=device-width, maximum-scale=1.0" />
 
-        <title>Assignment 1</title> 
+        <title>Final Project: LED Orchid</title> 
 
         <link href="style.css" media="screen" rel="stylesheet" type="text/css" />
 
     </head> 
     <body> 
-
+<iframe width="560" height="315" src="https://www.youtube.com/embed/JbXYUnn1HsE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
         <div class="header">
             <h1>Final Project</h1>
             <h2>Project Concept/Motivation</h2>
               <p>
-I would like to make a led lego orchid that changes color when something is pressed, hopefully a capacitive sensor but a pushbutton if the capacitive sensor doesn’t work
-            <h2>Anticipated Bill of Materials:</h2>
+I created a LED Orchid that changes color when tapped, made to brighten up my desk space and serve as a distraction when bored.
+
+            <h2>Bill of Materials:</h2>
                 <ul>
                 <li>RGB LEDs</li>
 <li>Lego Orchid Set</li>
                   <li>Resistors</li>
                   <li>Wires</li>
-                  <li>pushbutton/ foil</li>
+                  <li>Spoon</li>
                   <li>Arduino</li>
             </ul>
               </p>
-<h2>Timeline and contingency plans:</h2>
+<h2>Technical Implementation</h2>
 <p>
-<ul>
-    <li>By March 2nd, build in circuit to physical prototype (try to make sure wires don’t show too much). If anything goes wrong, finish by March 5th</li>
-    <li>By March 5th, finish firmware. If anything goes wrong, finish by March 7th and go to office hours </li>
-<li>By March 7th, finish demo + video. If anything goes wrong, finish by March 9th</li>
-    <li>By March 8th, finish documentation</li>
+
 
           </p>
+<h2>Firmware</h2>
+<pre>
+// include the capacitive sensor library
+#include <CapacitiveSensor.h>
+
+// record the pins connected to the capacitive sensor
+CapacitiveSensor   cs_2_4 = CapacitiveSensor(2,4); 
+
+// record the pins connected to the RGB LEDs
+int redPin= 12;
+int greenPin = 11;
+int bluePin = 10;
+int redPin2 = 9;
+int greenPin2 = 8;
+int bluePin2 = 7;
+
+// create variables recording the current sensor value
+int SensorValue = 0;
+// last sensorvalue,
+int lastSensorValue = 0;
+// and difference between the sensor values
+int difference = 0;
+// create a variable counting which case the LEDs are on
+int var = 1;
+
+
+void setup() {
+  // put your setup code here, to run once:
+  cs_2_4.set_CS_AutocaL_Millis(0xFFFFFFFF);  // turn off autocalibrate on channel 1
+  // initialize the LED pins
+  pinMode(redPin, OUTPUT); 
+  pinMode(greenPin, OUTPUT);
+  pinMode(bluePin, OUTPUT);
+  pinMode(redPin2, OUTPUT);
+  pinMode(greenPin2, OUTPUT);
+  pinMode(bluePin2, OUTPUT);
+  // begin the serial monitor
+  Serial.begin(9600);
+}
+
+void loop() {
+  // sense the current capacitive sensor values
+  long sensorValue =  cs_2_4.capacitiveSensor(30);
+  // if the current sensor value doesn't equal the last sensor value
+  if (sensorValue != lastSensorValue) {
+    // find the difference between the sensor values
+    difference = sensorValue - lastSensorValue;
+    // if this difference is not arbitrary (calibrate based on sensor values
+    // printed to the serial monitor)
+    if (difference > 50) {
+      // check if the case counter variable is on the last case
+      if (var == 5) {
+        // if it is, switch the case back to 1
+        var = 1;
+      } else {
+        // otherwise, move on to the next case
+        var++;
+      }
+      // switch which case the LEDs are on based on the case counter
+      switch (var) {
+        case 1:
+          setColor(255, 0, 0); // Red Color
+          delay(1000);
+          break;
+        case 2:
+          setColor(0, 255, 0); // Green Color
+          delay(1000);
+          break;
+        case 3:
+          setColor(0, 0, 255); // Blue Color
+          delay(1000);
+          break;
+       case 4:
+          setColor(255, 255, 255); // White Color
+          delay(1000);
+          break;
+       case 5:
+          setColor(170, 0, 255); // Purple Color
+          delay(1000);
+          break;
+       }
+    }
+    // set the last sensor value equal to the current sensor value
+    lastSensorValue = sensorValue;
+    // to help debug:
+    // print the current sensor value to the serial monitor
+    Serial.print(sensorValue);
+    Serial.print("\t");
+    // print the difference in sensor values to the serial monitor
+    Serial.print(difference);
+    Serial.print("\t");
+    // print which LED color case we are on
+    Serial.println(var);
+    // arbitrary delay to limit data to serial port
+    delay(10);                          
+  }
+}
+
+// create a function which sets the color of the RGB LEDs
+void setColor(int redValue, int greenValue, int blueValue) {
+  // set the pin connected to the red segment of the LEDs
+  analogWrite(redPin, redValue);
+  analogWrite(redPin2, redValue);
+  // set the pin connected to the green segment of the LEDs
+  analogWrite(greenPin, greenValue);
+  analogWrite(greenPin2, greenValue);
+  // set the pin connected to the blue segment of the LEDs
+  analogWrite(bluePin, blueValue);
+  analogWrite(bluePin2, blueValue);
+}
+</pre>
           <p>
             <img src="LEDorchid.jpg" width=400></a>
             </p>
