@@ -9,33 +9,70 @@
         <link href="style.css" media="screen" rel="stylesheet" type="text/css" />
 
     </head> 
-    <body> 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/JbXYUnn1HsE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    <body>
         <div class="header">
             <h1>Final Project</h1>
+            <h2>Final Project Demo Video</h2>   
+<iframe width="560" height="315" src="https://www.youtube.com/embed/JbXYUnn1HsE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      
             <h2>Project Concept/Motivation</h2>
               <p>
-I created a LED Orchid that changes color when tapped, made to brighten up my desk space and serve as a distraction when bored.
-
-            <h2>Bill of Materials:</h2>
+I created a decorative LED Orchid to brighten up my desk space and serve as a distraction when bored. Since I already owned the LED Orchid Lego set, 
+I was able to create the rest of this project with just materials from the HCDE 439 starter kit. When the capacitive sensor aka the spoon is tapped,
+the RGB LEDs change color. When the spoon is held, the RGB LEDs cycle through the possible colors every second. The colors are: red, green, blue, 
+purple, and white, although other colors can be added by including their RGB values in the code. <br>
+            <h3>Bill of Materials:</h3>
                 <ul>
                 <li>RGB LEDs</li>
+                    <li>mini breadboard</li>
 <li>Lego Orchid Set</li>
                   <li>Resistors</li>
                   <li>Wires</li>
                   <li>Spoon</li>
                   <li>Arduino</li>
             </ul>
+            <br>
               </p>
 <h2>Technical Implementation</h2>
+        <h3>Circuit</h3>
+        <p>
+            Since I used the mini breadboard, all the parts are packed close together, making it a little confusing upon first glance. I included
+            multiple shots of the circuit in order to help make it more clear. 
+        <p>
+            <img src="" width=400></a>
+            <img src="" width=400></a>
+            <img src="" width=400></a>
+            </p>
+<h3>Schematic</h3>
+<p> 
+    The circuit is made of three parts: RGB LED set one, RGB LED set two, and the capacitive sensor (I used a spoon). 
+</p>
+        <p>
+            <img src="" width=400></a>
+            <img src="" width=400></a>
+            <img src="" width=400></a>
+            </p>
 <p>
+This project uses 3 RGB LEDs, which need resistors in order to not burn out. The Arduino provides 5V of power and LEDs typically want to run at 20mA.
+RGB LEDs are made up of red, green, and blue LEDs packed together. Red and green LEDs have a 1.8 V drop, while blue LEDs have a 3.3 V drop. Using Ohm's Law (V=I*R) 
+we can calculate the resistance necessary for the LEDs to not get burnt out by the circuit. 
 
+Blue:
+V = I*R
+5 V - 3.3 V = 20 mA * R
+R = 1.7 V / 20 mA = 85 ohms
 
+Red/ Green:
+V = I*R
+5 V - 1.8 V = 20 mA * R
+R = 3.2 V / 20 mA = 160 ohms
+
+These values are the minimum resistor values, but I used 220 ohm resistors to minimize the brightness of the LEDs. <br>
           </p>
-<h2>Firmware</h2>
+<h3>Firmware</h3>
 <pre>
 // include the capacitive sensor library
-#include <CapacitiveSensor.h>
+#include \*<CapacitiveSensor.h\*>
 
 // record the pins connected to the capacitive sensor
 CapacitiveSensor   cs_2_4 = CapacitiveSensor(2,4); 
