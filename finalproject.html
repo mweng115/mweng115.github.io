@@ -55,10 +55,10 @@ purple, and white, although other colors can be added by including their RGB val
             <img src="IMG_3317.jpg" width=400></a>
             <img src="IMG_3318.jpg" width=400></a>
             </p>
-<p>
+<pre>
 This project uses 3 RGB LEDs, which need resistors in order to not burn out. The Arduino provides 5V of power and LEDs typically want to run at 20mA.
-RGB LEDs are made up of red, green, and blue LEDs packed together. Red and green LEDs have a 1.8 V drop, while blue LEDs have a 3.3 V drop. Using Ohm's Law (V=I*R) 
-we can calculate the resistance necessary for the LEDs to not get burnt out by the circuit. 
+RGB LEDs are made up of red, green, and blue LEDs packed together. Red and green LEDs have a 1.8 V drop, while blue LEDs have a 3.3 V drop. 
+Using Ohm's Law (V=I*R) we can calculate the resistance necessary for the LEDs to not get burnt out by the circuit. 
 
 Blue:
 V = I*R
@@ -71,7 +71,7 @@ V = I*R
 R = 3.2 V / 20 mA = 160 ohms
 
 These values are the minimum resistor values, but I used 220 ohm resistors to minimize the brightness of the LEDs. <br>
-          </p>
+          </pre>
 <h3>Firmware</h3>
 <pre>
 // include the capacitive sensor library
